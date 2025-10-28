@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>自我介紹網站</title>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- React & ReactDOM CDN -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <!-- React Router Hash -->
+  <script src="https://unpkg.com/react-router-dom@6/umd/react-router-dom.production.min.js"></script>
+  <!-- Framer Motion -->
+  <script src="https://unpkg.com/framer-motion/dist/framer-motion.umd.js"></script>
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide/dist/lucide.js"></script>
+
+  <style>
+    :root {
+      --warm1: #D68A7A;
+      --warm2: #E7BE8E;
+      --neutral: #DAD6C6;
+      --accent: #BFA8E1;
+      --teal: #64979C;
+    }
+  </style>
+</head>
+<body class="bg-neutral font-sans">
+
+<div id="root"></div>
+
+<script type="text/babel">
+
+const { HashRouter, Routes, Route, Link, Navigate, useLocation } = ReactRouterDOM;
+const { motion, AnimatePresence } = window['framer-motion'];
+
+function usePageAnimation() {
+  const location = useLocation();
+  return (
+    <AnimatePresence mode="wait">
+      <Routes location={location} key={location.pathname}>
+        <Route path="/" element={<Home />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/projects" element={<Projects />} />
+        <Route path="/contact" element={<Contact />} />
+        <Route path="*" element={<Navigate to="/" replace />} />
+      </Routes>
+    </AnimatePresence>
+  );
+}
+
+function App() {
+  return (
+    <HashRouter>
+      <div className="min-h-screen flex flex-col">
+        <Header />
+        <main className="flex-1 px-6 py-10">
+          <ContentWrapper />
+        </main>
+        <footer className="text-center py-6 text-gray-600">© 2025 你的名字</footer>
+      </div>
+    </HashRouter>
+  );
+}
+
+function Header() {
+  return (
+    <header className="sticky top-0 bg-white/60 backdrop-blur-md p-4 flex justify-between items-center shadow">
+      <Link to="/" className="font-bold text-xl text-[var(--warm1)]">你的名字</Link>
+      <nav className="flex gap-4">
+        <Link to="/" className="hover:text-[var(--teal)]">首頁</Link>
+        <Link to="/about" className="hover:text-[var(--teal)]">關於我</Link>
+        <Link to="/projects" className="hover:text-[var(--teal)]">作品集</Link>
+        <Link to="/contact" className="hover:text-[var(--teal)]">聯絡</Link>
+      </nav>
+    </header>
+  );
+}
+
+function ContentWrapper() {
+  return usePageAnimation();
+}
+
+// 頁面動畫
+const pageVariants = { initial:{opacity:0, y:20}, in:{opacity:1, y:0}, out:{opacity:0, y:-20} };
+const pageTransition = { duration:0.6, ease:'easeInOut' };
+
+function Home() {
+  return (
+    <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
+      <h1 className="text-4xl font-bold text-[var(--warm1)]">哈囉，我是 <span className="text-[var(--accent)]">你的名字</span></h1>
+      <p className="mt-4 text-gray-700">我是一名前端開發者，喜歡製作互動動畫與流暢使用者體驗的網站。</p>
+      <div className="mt-6 flex gap-4">
+        <Link to="/projects" className="px-4 py-2 rounded-lg bg-[var(--teal)] text-white">查看作品</Link>
+        <Link to="/about" className="px-4 py-2 rounded-lg border border-[var(--accent)] text-[var(--accent)]">了解更多</Link>
+      </div>
+    </motion.div>
+  );
+}
+
+function About() {
+  return (
+    <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
+      <h2 className="text-3xl font-bold text-[var(--teal)] mb-4">關於我</h2>
+      <p className="text-gray-700">我擁有設計與程式雙背景，喜歡結合動畫、色彩與排版創造生動的網頁體驗。</p>
+    </motion.div>
+  );
+}
+
+function Projects() {
+  const projects = [
+    {title:'互動名片', desc:'個性化動態介紹頁'},
+    {title:'展示牆', desc:'作品集動畫展示'},
+    {title:'創意小工具', desc:'趣味小專案'}
+  ];
+  return (
+    <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
+      <h2 className="text-3xl font-bold text-[var(--warm1)] mb-4">作品集</h2>
+      <div className="grid md:grid-cols-3 gap-4">
+        {projects.map(p=>(
+          <motion.div key={p.title} whileHover={{y:-5}} className="p-4 card bg-white rounded-lg shadow">
+            <h3 className="font-semibold text-[var(--teal)]">{p.title}</h3>
+            <p className="text-gray-600 text-sm">{p.desc}</p>
+          </motion.div>
+        ))}
+      </div>
+    </motion.div>
+  );
+}
+
+function Contact() {
+  return (
+    <motion.div initial="initial" animate="in" exit="out" variants={pageVariants} transition={pageTransition}>
+      <h2 className="text-2xl font-bold text-[var(--accent)] mb-2">聯絡我</h2>
+      <form className="grid gap-4">
+        <input placeholder="名字" className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[var(--teal)]"/>
+        <input placeholder="信箱" className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[var(--teal)]"/>
+        <textarea placeholder="訊息內容" rows="4" className="p-2 border border-gray-300 rounded focus:outline-none focus:ring-2 focus:ring-[var(--teal)]"/>
+        <button type="button" className="px-4 py-2 rounded-lg bg-[var(--warm1)] text-white">送出</button>
+      </form>
+    </motion.div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+
+</body>
+</html>
