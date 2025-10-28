@@ -1,30 +1,30 @@
 {
   "name": "your-portfolio-project",
   "version": "0.1.0",
-  // 1. 新增：設定部署後的網址
+
   "homepage": "https://youhog.github.io/about", 
   
   "private": true,
   "dependencies": {
-    // 您的專案依賴...
+
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.22.3",
     "framer-motion": "^11.0.8",
     "lucide-react": "^0.359.0"
-    // ...
+
   },
   "devDependencies": {
-    // 2. 新增：安裝 gh-pages
+
     "gh-pages": "^6.1.1",
-    // ...
+
   },
   "scripts": {
-    // 3. 新增：部署指令
+
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",  // 如果是 Vite 專案，請改成 gh-pages -d dist
+    "deploy": "gh-pages -d build", 
     
-    // 您的專案其他指令 (假設您用 create-react-app 或類似工具)
+
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
